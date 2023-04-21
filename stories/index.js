@@ -102,7 +102,7 @@ storiesOf("InterviewerListItem", module)
       id={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      selectCurrentInterviewerID={action("selectCurrentInterviewerID")}
+      selectCurrentInterviewerID={action("selectCurrentInterviewerID")(interviewer.id)}
     />
   ));
 
