@@ -14,7 +14,7 @@ import InterviewerList from 'components/InterviewerList';
 
 storiesOf("Button", module)
   .addParameters({
-    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
   })
   .add("Base", () => <Button>Base</Button>)
   .add("Confirm", () => <Button confirm>Confirm</Button>)
@@ -62,13 +62,13 @@ storiesOf("DayList", module)
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
   })
   .add("Monday", () => (
-    <DayList days={days} day={"Monday"} setDay={action("setDay")} />
+    <DayList days={days} value={"Monday"} onChange={action("setDay")} />
   ))
   .add("Tuesday", () => (
-    <DayList days={days} day={"Tuesday"} setDay={action("setDay")} />
+    <DayList days={days} value={"Tuesday"} onChange={action("setDay")} />
   ))
   .add("Wednesday", () => (
-    <DayList days={days} day={"Wednesday"} setDay={action("setDay")} />
+    <DayList days={days} value={"Wednesday"} onChange={action("setDay")} />
   ));
 
   const interviewer = {
@@ -102,7 +102,7 @@ storiesOf("InterviewerListItem", module)
       id={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      selectCurrentInterviewerID={action("selectCurrentInterviewerID")(interviewer.id)}
+      setInterviewer={action("setInterviewer")(interviewer.id)}
     />
   ));
 
@@ -126,13 +126,13 @@ storiesOf("InterviewerListItem", module)
     .add("Selected", () => (
       <InterviewerList
         interviewers={interviewers}
-        selectCurrentInterviewerID={action("selectCurrentInterviewerID")}
+        setInterviewer={action("setInterviewer")}
         interviewer={3}
       />
     ))
     .add("Clickable", () => (
       <InterviewerList
         interviewers={interviewers}
-        selectCurrentInterviewerID={action("selectCurrentInterviewerID")}
-      />
+        onChange={action("setInterviewer")}
+        />
     ));
