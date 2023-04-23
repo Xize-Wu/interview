@@ -148,8 +148,16 @@ storiesOf("Appointment", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }]
   })
-  .add("Appointment", () => <Appointment />)
-  .add("Appointment with Time", () => <Appointment time="12pm" />)
+  .add("Appointment", () =>
+  <Fragment>
+    <Header time = "5pm"/>
+    <Appointment />
+  </Fragment> )
+  .add("Appointment with Time", () => 
+    <Fragment>
+      <Header time = "5pm"/>
+      <Appointment time="12pm" />
+    </Fragment>)
   .add("Header", () => <Header time="12pm" />)
   .add("Empty", () => {
     return <Empty onAdd={action("onAdd")} />;
@@ -176,8 +184,24 @@ storiesOf("Appointment", module)
     "Error", () => {
       return <Error />;
     }
-  );
-
+  )
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="4pm" />
+      <Appointment time="5pm" />
+    </Fragment>
+  ))
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="4pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer: interviewer}}
+      />
+      <Appointment time="5pm" />
+    </Fragment>
+  ))
+  
 storiesOf("Form", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }]
