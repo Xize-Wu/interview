@@ -6,7 +6,6 @@ import './styles.scss';
 
 export default function Appointment(props) {
   const {interview} = props
-  console.log("appointment props", props)
   return (
     <Fragment>
       <Header time = {props.time}/>
