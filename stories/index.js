@@ -134,7 +134,7 @@ storiesOf("InterviewerList", module)
     <InterviewerList
       interviewers={interviewers}
       setInterviewer={action("setInterviewer")}
-      interviewer={3}
+      value={3}
     />
   ))
   .add("Clickable", () => (
