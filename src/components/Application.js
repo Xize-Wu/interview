@@ -51,12 +51,10 @@ export default function Application(props) {
     Axios
       .get("/api/days")
       .then(response => {
-        console.log(response.data)
         setDays(response.data)
       })
       .catch(error => console.log(error));
   }, []);
-  console.log(appointments);
   const [day, setDay] = useState("Monday");
   return (
     <main className="layout">
