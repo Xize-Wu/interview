@@ -10,10 +10,11 @@ export default function Application(props) {
   const [state, setState] = useState({
     day:"Monday",
     days:[],
-    appointments: {}
+    appointments: {},
+    interviewers:{}
   })
 
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const appointments = getAppointmentsForDay(state, state.day);
 
   const setDay = day => setState({ ...state, day });
 
@@ -23,14 +24,18 @@ export default function Application(props) {
       Axios.get("/api/appointments"),
       Axios.get("/api/interviewers")
     ]).then((all)=>{
-        console.log(all)
         setState(prev => ({...prev, 
           days: Object.values(all[0]["data"]),
           appointments: Object.values(all[1]["data"]),
-          second: all[1], third: all[2] }));
-
-      }).catch(error => console.log(error));
+          interviewers:Object.values(all[2]["data"])}));
+      })
+      .catch(error => console.log(error));
   }, []);
+
+  useEffect(() => {
+    console.log(state.interviewers);
+  }, [state.interviewers]);
+  
 
   return (
     <main className="layout">
@@ -56,13 +61,14 @@ export default function Application(props) {
 
       </section>
       <section className="schedule">
-        {dailyAppointments.map(
+        {appointments.map(
           appointment =>{
+            const interview = getInterview(state, appointment.interview);
             return <Appointment
               key = {appointment.id}
               id = {appointment.id}
               time = {appointment.time}
-              interview = {appointment.interview}
+              interview = {interview}
             />
           }
         )}
