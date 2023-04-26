@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import DayList from "./DayList.js";
 import Axios from "axios";
 
-import { getAppointmentsForDay } from "helpers/selectors.js";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors.js";
 import Appointment from "./Appointment/index.js";
+import { useVisualMode } from "hooks/useVisualMode.js";
 import "components/Application.scss";
 
 export default function Application(props) {
@@ -31,11 +32,6 @@ export default function Application(props) {
       })
       .catch(error => console.log(error));
   }, []);
-
-  useEffect(() => {
-    console.log(state.interviewers);
-  }, [state.interviewers]);
-  
 
   return (
     <main className="layout">
