@@ -23,4 +23,20 @@ function getInterview(state, interview) {
     interviewer: state['interviewers'][interview.interviewer],
   }}
 
-export {getAppointmentsForDay, getInterview};
+  //helper function to select interviewer for particular day
+  function getInterviewersForDay(state, day) {
+    const result = [];
+    const filteredDays = state.days.filter(d => d.name === day);
+    if (filteredDays.length === 0) {
+      return result;
+    }
+    for (const key in state.appointments) {
+      if (filteredDays[0]["appointments"].includes(Number(key)) && state["appointments"][key]["interview"]) {
+        const temp = state["appointments"][key]["interview"]["interviewer"]
+       result.push(state["interviewers"][temp])
+      }
+    }
+    return (result)
+  }
+  
+export {getAppointmentsForDay, getInterview, getInterviewersForDay};
