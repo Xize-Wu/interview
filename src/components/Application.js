@@ -7,6 +7,8 @@ import Appointment from "./Appointment/index.js";
 import "components/Application.scss";
 
 export default function Application(props) {
+
+  //define a stateful component with initial state values
   const [state, setState] = useState({
     day:"Monday",
     days:[],
@@ -16,6 +18,8 @@ export default function Application(props) {
   
   const setDay = day => setState({ ...state, day });
   const appointments = getAppointmentsForDay(state, state.day);
+  
+  //fetch data from API endpoints and update component state
   useEffect(() => {
     Promise.all([
       Axios.get("/api/days"),
@@ -39,6 +43,20 @@ export default function Application(props) {
     const appointments = {...state.appointments, [id]: appointment}
     return Axios
     .put(`/api/appointments/${id}`, {interview})
+    .then(()=>{
+      setState(prev =>({...prev, appointments}))
+    })
+  }
+
+  //use the appointment id to find the right appointment slot and set it's interview data to null
+  function deleteInterview(id, interview){
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    }
+    const appointments = {...state.appointments, [id]: appointment}
+    return Axios
+    .delete(`/api/appointments/${id}`, {interview})
     .then(()=>{
       setState(prev =>({...prev, appointments}))
     })
@@ -79,6 +97,7 @@ export default function Application(props) {
               interview = {interview}
               interviewers={interviewers}
               bookInterview={bookInterview}
+              deleteInterview={deleteInterview}
             />
           }
         )}

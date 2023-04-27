@@ -6,16 +6,19 @@ import Empty from "./Empty";
 import Header from "./Header";
 import Form from "./Form";
 import Status from "./Status";
+import Confirm from "./Confirm";
 import './styles.scss';
 
 export default function Appointment(props) {
-  const { id, bookInterview } = props;
+  const { id, bookInterview, deleteInterview } = props;
 
   //use custom hook to change component rendered in application
   const EMPTY = "EMPTY"; 
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
+  const CONFIRM = "CONFIRM";
+
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -32,9 +35,24 @@ export default function Appointment(props) {
       () =>{transition(SHOW)}
     )
   }
-  
-  console.log(props)
-  return (
+
+  //cancel a interview
+  function cancel(name, interviewer){
+    const interview = {
+      student: name,
+      interviewer
+    };
+    transition(EMPTY)
+    deleteInterview(id, interview)
+    .then(
+      ()=>(transition(CONFIRM))
+    )
+    // .then(
+    //   () =>{transition(EMPTY)}
+    // )
+  }
+
+    return (
     <Fragment>
       <Header time={props.time} />
       <article className="appointment">
@@ -43,8 +61,11 @@ export default function Appointment(props) {
           <Show
             student={props.interview? props.interview.student :"Hello!"}
             interviewer={props.interview.interviewer}
+            onDelete = {cancel}
           />
         )}
+        {mode === CONFIRM && <Confirm
+          onConfirm = {() => transition(EMPTY)}/>}
         {mode === SAVING && <Status message={"Saving"} />}
 
         {mode === CREATE && (
