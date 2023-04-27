@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { useState, useEffect } from "react";
-
+import { getAppointmentsForDay } from "helpers/selectors";
 
 const useApplication =() => {
   //define a stateful component with initial state values
@@ -12,7 +12,7 @@ const useApplication =() => {
   })
   
   const setDay = day => setState({ ...state, day });
-    
+
   //fetch data from API endpoints and update component state
   useEffect(() => {
     Promise.all([
@@ -30,6 +30,18 @@ const useApplication =() => {
 
   //change the local state when we book an interview
   function bookInterview(id, interview) {
+    const days = state.days.map(
+      day =>{
+        if (day.appointments.includes(id)){
+          if (!state.appointments[id].interview){
+            return {
+              ...day, spots:day.spots-1
+            }
+          }
+        }
+        return day
+      }
+    )
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -38,12 +50,24 @@ const useApplication =() => {
     return Axios
     .put(`/api/appointments/${id}`, {interview})
     .then(()=>{
-      setState(prev =>({...prev, appointments}))
+      setState(prev =>({...prev, appointments, days}))
     })
   }
 
   //use the appointment id to find the right appointment slot and set its interview data to null
   function deleteInterview(id, interview){
+    const days = state.days.map(
+      day =>{
+        if (day.appointments.includes(id)){
+          if (state.appointments[id].interview){
+            return {
+              ...day, spots:day.spots+1
+            }
+          }
+        }
+        return day
+      }
+    )
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -52,7 +76,7 @@ const useApplication =() => {
     return Axios
     .delete(`/api/appointments/${id}`, {interview})
     .then(()=>{
-      setState(prev =>({...prev, appointments}))
+      setState(prev =>({...prev, appointments,days}))
     })
   }
   return {deleteInterview, bookInterview, state,setDay}
