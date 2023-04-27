@@ -59,6 +59,7 @@ export default function Appointment(props) {
             student={props.interview? props.interview.student :"Hello!"}
             interviewer={props.interview.interviewer}
             onDelete = {cancel}
+            onEdit = {() => transition(CREATE)}
           />
         )}
         {mode === CONFIRM && <Confirm
