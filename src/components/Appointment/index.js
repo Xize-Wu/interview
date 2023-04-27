@@ -47,9 +47,6 @@ export default function Appointment(props) {
     .then(
       ()=>(transition(CONFIRM))
     )
-    // .then(
-    //   () =>{transition(EMPTY)}
-    // )
   }
 
     return (
@@ -65,7 +62,8 @@ export default function Appointment(props) {
           />
         )}
         {mode === CONFIRM && <Confirm
-          onConfirm = {() => transition(EMPTY)}/>}
+          onConfirm = {() => transition(EMPTY)}
+          onCancel ={() => transition(SHOW)}/>}
         {mode === SAVING && <Status message={"Saving"} />}
 
         {mode === CREATE && (
