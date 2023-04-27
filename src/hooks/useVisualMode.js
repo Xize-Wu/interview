@@ -10,6 +10,8 @@ export function useVisualMode(initial) {
     setMode(value);
     if (!boo) {
       setHistory(prevHistory => [...prevHistory, value]);
+    } else {
+      setHistory(prevHistory => [...prevHistory.slice(0,prevHistory.length - 1), value])
     }
   }
   function back() {

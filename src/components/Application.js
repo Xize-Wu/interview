@@ -48,7 +48,7 @@ export default function Application(props) {
     })
   }
 
-  //use the appointment id to find the right appointment slot and set it's interview data to null
+  //use the appointment id to find the right appointment slot and set its interview data to null
   function deleteInterview(id, interview){
     const appointment = {
       ...state.appointments[id],
