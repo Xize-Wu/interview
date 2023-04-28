@@ -17,8 +17,8 @@ export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
-  const DELETING = "DELETING"
-  const EDITING = "EDITING"
+  const DELETING = "DELETING";
+  const EDITING = "EDITING";
   const SAVING = "SAVING";
   const CONFIRM = "CONFIRM";
   const ERROR_SAVE = "ERROR_SAVE";
@@ -45,8 +45,8 @@ export default function Appointment(props) {
   }
 
   //transit to the confirm window
-  function confirm (){
-    transition(CONFIRM)
+  function confirm() {
+    transition(CONFIRM);
   }
 
   //cancel a interview
@@ -55,7 +55,7 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    transition(DELETING, true)
+    transition(DELETING, true);
     deleteInterview(id, interview)
       .then(
         () => (transition(EMPTY))
@@ -64,11 +64,12 @@ export default function Appointment(props) {
         () => { transition(ERROR_DELETE, true); }
       );
   }
-console.log(props.interview)
+
   return (
     <Fragment>
       <Header time={props.time} />
-      <article className="appointment">
+      <article data-testid="appointment"
+        className="appointment">
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && (
           <Show
@@ -99,8 +100,8 @@ console.log(props.interview)
         {mode === EDITING && (
           <Form
             interviewers={props.interviewers}
-            interviewer = {props?.interview?.interviewer?.id}
-            student = {props?.interview?.student}
+            interviewer={props?.interview?.interviewer?.id}
+            student={props?.interview?.student}
             onSave={save}
             onCancel={back}
           />
